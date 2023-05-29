@@ -5,7 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+//import android.widget.GridLayout;
+import androidx.gridlayout.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 activePlayer = 0;
             }
 
-            counter.animate().translationYBy(1500).rotation(3600).setDuration(800);
+            counter.animate().translationYBy(1500).rotation(3600).setDuration(500);
 
             for (int[] winningPosition : winningPositions) {
                 if (gamesState[winningPosition[0]] == gamesState[winningPosition[1]]
@@ -47,14 +51,41 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         winner = "Red";
                     }
-                    Toast.makeText(this, winner + " has won", Toast.LENGTH_SHORT).show();
+
+                    Button playAgainButton = (Button) findViewById(R.id.playAgainButton);
+                    TextView winnerTextView = (TextView) findViewById(R.id.winnerTextView);
+
+                    winnerTextView.setText(winner + " has won");
+                    winnerTextView.setVisibility(View.VISIBLE);
+                    playAgainButton.setText("Play Again!");
+                    playAgainButton.setVisibility(View.VISIBLE);
+
                 }
             }
         }
 
     }
 
+    public void playAgain (View view) {
+//        Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
+        Button playAgainButton = (Button) findViewById(R.id.playAgainButton);
+        TextView winnerTextView = (TextView) findViewById(R.id.winnerTextView);
+        winnerTextView.setVisibility(View.INVISIBLE);
+        playAgainButton.setVisibility(View.INVISIBLE);
 
+        GridLayout gridLayout = (GridLayout) findViewById(R.id.gridLayout);
+
+        for (int i=0; i<gridLayout.getChildCount(); i++){
+            ImageView counter = (ImageView) gridLayout.getChildAt(i);
+            counter.setImageDrawable(null);
+        }
+        for (int i = 0; i<gamesState.length; i++){
+            gamesState[i] = 2;
+        }
+
+        activePlayer = 0;
+        gameActive = true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
