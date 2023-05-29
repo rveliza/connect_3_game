@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     // 0: yellow; 1: red; 2: empty
     int activePlayer = 0;
+    boolean gameActive = true;
     int[] gamesState = {2, 2, 2, 2, 2, 2, 2, 2, 2};
     int[][] winningPositions = {{0,1,2}, {3,4,5}, {6,7,8},
             {0,3,6}, {1,4,7}, {2,5,8}, {0,4,8}, {2,4,6}};
@@ -19,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView counter = (ImageView) view;
         int tappedCounter = Integer.parseInt(counter.getTag().toString());
 
-        if (gamesState[tappedCounter] == 2) {
+        if (gamesState[tappedCounter] == 2 && gameActive) {
             gamesState[tappedCounter] = activePlayer;
 
             counter.setTranslationY(-1500);
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
                         && gamesState[winningPosition[1]] == gamesState[winningPosition[2]]
                         && gamesState[winningPosition[0]] != 2){
                     // someone has won!
+                    gameActive = false;
                     String winner = "";
 
                     if (activePlayer == 1) {
